@@ -1,18 +1,16 @@
 """Tests for bot main module."""
-import os
-# from unittest.mock import patch
-import pytest
-# from http import HTTPStatus
-# import requests
-# import telegram
-# import utils
-import main
-
-# pylint: disable=missing-function-docstring
+# pylint: disable=missing-function-docstring, import-outside-toplevel
 
 
-def test_check_token(monkeypatch):
-    assert main.check_token() is True, 'Missing TELEGRAM_TOKEN env'
+def test_check_token_false():
+    import main
+    main.TELEGRAM_TOKEN = None
 
-    with monkeypatch.delenv("TELEGRAM_TOKEN") as m:
-        assert main.check_token() is False, os.getenv('TELEGRAM_TOKEN')
+    assert main.check_token() is False
+
+
+def test_check_token_true():
+    import main
+    main.TELEGRAM_TOKEN = '1234:abcdefg'
+
+    assert main.check_token() is True
